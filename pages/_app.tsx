@@ -1,8 +1,13 @@
-import React from "react";
-import "../styles/globals.css";
+import { ApolloProvider } from '@apollo/client';
+import React from 'react';
+import '../styles/globals.css';
 
-function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />;
+import client from '../graphql/apollo-client';
+
+export default function App({ Component, pageProps }) {
+  return (
+    <ApolloProvider client={client}>
+      <Component {...pageProps} />
+    </ApolloProvider>
+  );
 }
-
-export default MyApp;

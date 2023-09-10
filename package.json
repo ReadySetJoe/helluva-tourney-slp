@@ -8,16 +8,27 @@
     "start": "next start"
   },
   "dependencies": {
+    "@apollo/client": "^3.8.3",
+    "@apollo/server": "^4.9.3",
+    "@as-integrations/next": "^2.0.2",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@fontsource/roboto": "^5.0.8",
     "@mui/icons-material": "^5.14.7",
     "@mui/material": "^5.14.7",
+    "@nextui-org/react": "^2.1.10",
     "@slippi/slippi-js": "^6.7.0",
+    "apollo-server-core": "^3.12.1",
     "aws-sdk": "^2.1450.0",
-    "buffer": "^6.0.3",
+    "axios": "^1.5.0",
+    "chart.js": "^4.4.0",
     "date-fns": "^2.30.0",
+    "file-saver": "^2.0.5",
+    "formidable": "^3.5.1",
     "fs": "^0.0.1-security",
+    "graphql": "^16.8.0",
+    "graphql-tag": "^2.12.6",
+    "net": "^1.0.2",
     "next": "latest",
     "react": "18.2.0",
     "react-dom": "18.2.0"
@@ -28,6 +39,7 @@
   "devDependencies": {
     "@types/node": "20.5.9",
     "@types/react": "18.2.21",
+    "prettier": "^3.0.3",
     "typescript": "5.2.2"
   },
   "browser": {

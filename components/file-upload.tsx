@@ -44,23 +44,20 @@ const FileUpload = ({ setGames }) => {
   };
 
   return (
-    <div className={styles.card}>
-      <div>
-        <h3>Select Multiple Files</h3>
-        <input
-          type="file"
-          id="file-upload"
-          hidden
-          onChange={handleSlpFiles}
-          multiple
-          accept=".slp"
-        />
-        <label className={styles.button} htmlFor="file-upload">
-          Choose a file
-        </label>
+    <div>
+      <input
+        type="file"
+        id="file-upload"
+        hidden
+        onChange={handleSlpFiles}
+        multiple
+        accept=".slp"
+      />
+      <label className={styles.button} htmlFor="file-upload">
+        Choose a file
+      </label>
 
-        {loading && <div className={styles.loader} />}
-      </div>
+      {loading && <div className={styles.loader} />}
     </div>
   );
 };
