@@ -56,7 +56,6 @@ export default function Home() {
         <title>helluva-tourney-slp</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
       <main>
         <h1>HELLUVA_TOURNEY.SLP</h1>
         <div
@@ -91,7 +90,6 @@ export default function Home() {
               </ul>
             )}
           </div>
-
           <div>
             <h1>Get Tournament Data</h1>
             <div style={{ display: 'flex', flexDirection: 'column' }}>
