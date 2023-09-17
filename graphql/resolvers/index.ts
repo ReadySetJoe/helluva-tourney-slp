@@ -1,8 +1,14 @@
-import { getTournament } from './tournament';
+import { fetchGgTournament } from './start-gg';
+import { createTournament, myTournaments, tournaments } from './tournament';
 
 const resolvers = {
   Query: {
-    getTournament,
+    fetchGgTournament,
+    myTournaments,
+    tournaments,
+  },
+  Mutation: {
+    createTournament,
   },
 };
 

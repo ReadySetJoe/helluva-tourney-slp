@@ -28,7 +28,7 @@ export type EventSetsQueryResponse = {
     };
     nodes: {
       id: number;
-      fullRoundText: number;
+      fullRoundText: string;
       slots: {
         id: string;
         entrant: {

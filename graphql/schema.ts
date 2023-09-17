@@ -2,18 +2,60 @@ import { gql } from 'graphql-tag';
 
 const typeDefs = gql`
   type Query {
-    getTournament(slug: String!): Tournament
+    tournaments: [Tournament]
+    myTournaments: [Tournament]
+    fetchGgTournament(slug: String!): GgTournamentQueryResponse
+  }
+
+  type Mutation {
+    createTournament(slug: String!): Tournament
+  }
+
+  type GgTournamentQueryResponse {
+    tournament: GgTournament
+    event: GgEvent
+  }
+
+  type GgTournament {
+    slug: String!
+    name: String!
+  }
+
+  type GgEvent {
+    id: ID!
+    name: String!
+    sets: GgSetConnection
+  }
+
+  type GgSetConnection {
+    nodes: [GgSet]
+  }
+
+  type GgSet {
+    id: ID!
+    fullRoundText: String!
+    slots: [GgSlot]
+  }
+
+  type GgSlot {
+    id: ID!
+    entrant: GgEntrant
+  }
+
+  type GgEntrant {
+    id: ID!
+    name: String!
   }
 
   type Tournament {
     id: ID!
+    slug: String!
     name: String!
     event: Event
   }
 
   type Event {
     id: ID!
-    name: String!
     finalRound: Int
     sets: [Set]
   }

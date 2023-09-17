@@ -5,7 +5,6 @@ import { ChangeEventHandler, useState } from 'react';
 import styles from '../styles/Home.module.css';
 
 const sortByStartAt = (a: SlippiGame, b: SlippiGame) => {
-  console.log('a', a.getMetadata());
   const startAtA = a.getMetadata().startAt;
   const startAtB = b.getMetadata().startAt;
   return isBefore(new Date(startAtA), new Date(startAtB)) ? 1 : -1;
@@ -35,9 +34,9 @@ const FileUpload = ({ setGames }) => {
       return setupReader(file);
     });
 
-    const gamesData = (await Promise.all(filePromises)).sort(
-      sortByStartAt
-    ) as SlippiGame[];
+    const gamesData = (await Promise.all(filePromises))
+      .filter((g: SlippiGame) => !!g.getMetadata()?.startAt)
+      .sort(sortByStartAt) as SlippiGame[];
 
     setGames(gamesData);
     setLoading(false);

@@ -1,0 +1,96 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @unique @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id            String       @id @default(cuid())
+  name          String?
+  email         String?      @unique
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+  Tournament    Tournament[]
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Tournament {
+  id     Int     @id @default(autoincrement())
+  slug   String
+  name   String
+  user   User    @relation(fields: [userId], references: [id])
+  userId String
+  Event  Event[]
+}
+
+model Event {
+  id           Int         @id @default(autoincrement())
+  ggId         Int
+  tournament   Tournament? @relation(fields: [tournamentId], references: [id])
+  tournamentId Int?
+  sets         Set[]
+}
+
+model Set {
+  id      Int    @id @default(autoincrement())
+  ggId    Int
+  event   Event? @relation(fields: [eventId], references: [id])
+  eventId Int?
+  round   String
+  games   Game[]
+}
+
+model Game {
+  id       Int       @id @default(autoincrement())
+  ggId     Int
+  Set      Set?      @relation(fields: [setId], references: [id])
+  setId    Int?
+  entrants Entrant[]
+}
+
+model Entrant {
+  id     Int    @id @default(autoincrement())
+  name   String
+  ggId   Int
+  game   Game?  @relation(fields: [gameId], references: [id])
+  gameId Int?
+}
