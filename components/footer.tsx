@@ -1,6 +1,6 @@
 const Footer = () => (
   <footer>
-    Made by Joe Powers{" "}
+    Made by Joe Powers{' '}
     <a
       href="https://github.com/ReadySetJoe"
       target="_blank"

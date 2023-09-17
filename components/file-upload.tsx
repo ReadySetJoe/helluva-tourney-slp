@@ -1,6 +1,7 @@
-import { SlippiGame } from '@slippi/slippi-js';
 import { isBefore } from 'date-fns';
 import { ChangeEventHandler, useState } from 'react';
+
+import { SlippiGame } from '@slippi/slippi-js';
 
 import styles from '../styles/Home.module.css';
 

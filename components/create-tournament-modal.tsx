@@ -1,7 +1,8 @@
-import { useLazyQuery, useMutation } from '@apollo/client';
-import { Modal } from '@mui/material';
 import gql from 'graphql-tag';
 import { useState } from 'react';
+
+import { useLazyQuery, useMutation } from '@apollo/client';
+import { Modal } from '@mui/material';
 
 import styles from '../styles/Home.module.css';
 
@@ -54,9 +55,7 @@ const createTournamentQuery = gql`
 `;
 
 const CreateTournamentModal = ({ open, setOpen }) => {
-  const [tournamentUrl, setTournamentUrl] = useState<string>(
-    'https://www.start.gg/tournament/trading-stocks-10/events'
-  );
+  const [tournamentUrl, setTournamentUrl] = useState<string>('');
 
   const slug = getSlugFromTournamentUrl(tournamentUrl);
 
@@ -69,12 +68,9 @@ const CreateTournamentModal = ({ open, setOpen }) => {
 
   const ggTournament = tournamentData?.fetchGgTournament;
 
-  const [createTournament, { loading, data }] = useMutation(
-    createTournamentQuery,
-    {
-      variables: { slug },
-    }
-  );
+  const [createTournament] = useMutation(createTournamentQuery, {
+    variables: { slug },
+  });
 
   return (
     <Modal open={open} sx={modalStyle} onClose={() => setOpen(false)}>

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { gql, useLazyQuery, useQuery } from '@apollo/client';
+import { gql, useQuery } from '@apollo/client';
 import { SlippiGame } from '@slippi/slippi-js';
 
 import CreateTournamentModal from '../components/create-tournament-modal';
@@ -39,12 +39,10 @@ const getPlayerDescription = player => {
 export default function Home() {
   const [games, setGames] = useState<SlippiGame[]>([]);
   const [createTournamentModalOpen, setCreateTournamentModalOpen] =
-    useState<boolean>(true);
+    useState<boolean>(false);
   const [selectedTournament, setSelectedTournament] = useState<string>('');
 
   const { data: myTournamentsData } = useQuery(myTournamentsQuery);
-
-  console.log('myTournamentsData', myTournamentsData);
 
   return (
     <div className={styles.container}>
@@ -104,7 +102,6 @@ export default function Home() {
           </div>
         </div>
       </main>
-
       <Footer />
     </div>
   );

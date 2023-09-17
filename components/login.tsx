@@ -1,4 +1,5 @@
-import { useSession, signIn, signOut } from 'next-auth/react';
+import { signIn, signOut, useSession } from 'next-auth/react';
+
 import styles from '../styles/Home.module.css';
 
 export default function Login() {
