@@ -15,6 +15,7 @@ export const fetchGgTournament = async (
           name
           events {
             id
+            type
             videogame {
               id
             }
@@ -39,7 +40,9 @@ export const fetchGgTournament = async (
   const tournament = (await tournamentRes.json()).data
     .tournament as TournamentQueryResponse;
 
-  const eventId = tournament.events.find(e => e.videogame.id === 1).id;
+  const eventId = tournament.events.find(
+    e => e.videogame.id === 1 && e.type === 1
+  ).id;
 
   const eventBody = JSON.stringify({
     query: `query EventSets($eventId: ID!, $page: Int!, $perPage: Int!) {
@@ -53,7 +56,9 @@ export const fetchGgTournament = async (
             ) {
               nodes {
                 id
+                round
                 fullRoundText
+                winnerId
                 slots {
                   id
                   entrant {

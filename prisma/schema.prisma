@@ -71,12 +71,14 @@ model Event {
 }
 
 model Set {
-  id       Int       @id @default(autoincrement())
-  ggId     Int
-  event    Event     @relation(fields: [eventId], references: [id], onDelete: Cascade)
-  eventId  Int
-  round    String
-  entrants Entrant[]
+  id         Int       @id @default(autoincrement())
+  ggId       Int
+  event      Event     @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  eventId    Int
+  round      Int
+  roundText  String
+  entrants   Entrant[]
+  winnerGgId Int
 }
 
 model Entrant {

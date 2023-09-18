@@ -64,12 +64,15 @@ const typeDefs = gql`
 
   type Set {
     id: Int!
-    round: String
+    round: Int
+    roundText: String
     entrants: [Entrant]
+    winnerGgId: Int
   }
 
   type Entrant {
     id: Int!
+    ggId: Int!
     name: String!
   }
 `;

@@ -59,12 +59,9 @@ const CreateTournament = () => {
 
   const ggTournament = tournamentData?.fetchGgTournament;
 
-  const [createTournament, { data: createTournamentData }] = useMutation(
-    createTournamentQuery,
-    {
-      variables: { slug },
-    }
-  );
+  const [createTournament] = useMutation(createTournamentQuery, {
+    variables: { slug },
+  });
 
   return (
     <FormControl>
@@ -94,10 +91,8 @@ const CreateTournament = () => {
           <p>Tournament name: {ggTournament.tournament.name}</p>
           <Button
             onClick={async () => {
-              await createTournament();
-              router.push(
-                `/tournament/${createTournamentData.createTournament.id}`
-              );
+              const res = await createTournament();
+              router.push(`/tournament/${res.data.createTournament.id}`);
             }}
           >
             Add to database

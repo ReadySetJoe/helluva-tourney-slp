@@ -65,49 +65,32 @@ export const createTournament = async (
       name: tournamentData.name,
       slug,
       userId: user.id,
-    },
-  });
-
-  const event = await models.event.create({
-    data: {
-      ggId: eventData.id,
-      tournamentId: tournament.id,
-    },
-  });
-
-  await Promise.all(
-    eventData.sets.nodes.map(async ggSet => {
-      const set = await models.set.create({
-        data: {
-          ggId: ggSet.id,
-          round: ggSet.fullRoundText,
-          eventId: event.id,
-          entrants: {
-            create: ggSet.slots.map(slot => ({
-              ggId: slot.entrant.id,
-              name: slot.entrant.name,
-            })),
+      events: {
+        create: [
+          {
+            ggId: eventData.id,
+            sets: {
+              create: eventData.sets.nodes.map(ggSet => ({
+                ggId: ggSet.id,
+                round: ggSet.round,
+                roundText: ggSet.fullRoundText,
+                winnerGgId: ggSet.winnerId,
+                entrants: {
+                  create: ggSet.slots.map(slot => ({
+                    ggId: slot.entrant.id,
+                    name: slot.entrant.name,
+                  })),
+                },
+              })),
+            },
           },
-        },
-      });
-
-      // await Promise.all(
-      //   ggSet.slots.map(slot => {
-      //     return models.entrant.create({
-      //       data: {
-      //         setId: set.id,
-      //         name: slot.entrant.name,
-      //         ggId: slot.entrant.id,
-      //       },
-      //     });
-      //   })
-      // );
-    })
-  );
+        ],
+      },
+    },
+  });
 
   return {
-    id: tournament.id,
-    name: tournament.name,
+    ...tournament,
   };
 };
 

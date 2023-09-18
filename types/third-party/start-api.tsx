@@ -10,6 +10,7 @@ export type TournamentQueryResponse = {
     videogame: {
       id: number;
     };
+    type: number;
   }[];
 };
 
@@ -28,7 +29,9 @@ export type EventSetsQueryResponse = {
     };
     nodes: {
       id: number;
+      round: number;
       fullRoundText: string;
+      winnerId: number;
       slots: {
         id: string;
         entrant: {
