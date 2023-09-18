@@ -2,6 +2,7 @@ import { gql } from 'graphql-tag';
 
 const typeDefs = gql`
   type Query {
+    tournament(id: Int!): Tournament
     tournaments: [Tournament]
     myTournaments: [Tournament]
     fetchGgTournament(slug: String!): GgTournamentQueryResponse
@@ -9,6 +10,7 @@ const typeDefs = gql`
 
   type Mutation {
     createTournament(slug: String!): Tournament
+    deleteTournament(id: Int!): Boolean
   }
 
   type GgTournamentQueryResponse {
@@ -22,7 +24,7 @@ const typeDefs = gql`
   }
 
   type GgEvent {
-    id: ID!
+    id: Int!
     name: String!
     sets: GgSetConnection
   }
@@ -32,42 +34,42 @@ const typeDefs = gql`
   }
 
   type GgSet {
-    id: ID!
+    id: Int!
     fullRoundText: String!
     slots: [GgSlot]
   }
 
   type GgSlot {
-    id: ID!
+    id: Int!
     entrant: GgEntrant
   }
 
   type GgEntrant {
-    id: ID!
+    id: Int!
     name: String!
   }
 
   type Tournament {
-    id: ID!
+    id: Int!
     slug: String!
     name: String!
-    event: Event
+    events: [Event]
   }
 
   type Event {
-    id: ID!
+    id: Int!
     finalRound: Int
     sets: [Set]
   }
 
   type Set {
-    id: ID!
+    id: Int!
     round: String
     entrants: [Entrant]
   }
 
   type Entrant {
-    id: ID!
+    id: Int!
     name: String!
   }
 `;

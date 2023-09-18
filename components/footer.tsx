@@ -9,8 +9,6 @@ const Footer = () => (
       <img
         src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
         alt="my github"
-        width="25"
-        height="25"
       />
     </a>
     <a
@@ -19,10 +17,8 @@ const Footer = () => (
       rel="noopener noreferrer"
     >
       <img
-        src="https://cdns.iconmonstr.com/wp-content/releases/preview/2016/240/iconmonstr-twitch-1.png"
+        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTx5dReyX9Qnh77NFqIEzy3BBe009mhElz_Lg&usqp=CAU"
         alt="my twitch"
-        width="20"
-        height="20"
       />
     </a>
     <a
@@ -31,10 +27,8 @@ const Footer = () => (
       rel="noopener noreferrer"
     >
       <img
-        src="https://cdns.iconmonstr.com/wp-content/releases/preview/2012/240/iconmonstr-linkedin-3.png"
+        src="https://www.freepnglogos.com/uploads/linkedin-logo-black-png-image-21.png"
         alt="my linkedin"
-        width="20"
-        height="20"
       />
     </a>
     <a
@@ -45,8 +39,6 @@ const Footer = () => (
       <img
         src="https://static.vecteezy.com/system/resources/thumbnails/002/205/854/small/email-icon-free-vector.jpg"
         alt="my email"
-        width="30"
-        height="30"
       />
     </a>
   </footer>

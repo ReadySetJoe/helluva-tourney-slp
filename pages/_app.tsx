@@ -5,11 +5,26 @@ import '@fontsource/roboto/700.css';
 import '../styles/globals.css';
 
 import { SessionProvider } from 'next-auth/react';
+import Head from 'next/head';
 import React from 'react';
 
 import { ApolloProvider } from '@apollo/client';
+import { AppBar, Container, Toolbar } from '@mui/material';
+import CssBaseline from '@mui/material/CssBaseline';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
+import Footer from '../components/footer';
+import Header from '../components/header';
 import client from '../lib/apollo';
+
+const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+  },
+  typography: {
+    fontFamily: 'monospace',
+  },
+});
 
 export default function App({
   Component,
@@ -20,8 +35,21 @@ export default function App({
 }) {
   return (
     <ApolloProvider client={client}>
+      <Head>
+        <title>HTSLP</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <SessionProvider session={session}>
-        <Component {...pageProps} />
+        <ThemeProvider theme={darkTheme}>
+          <AppBar position="static">
+            <Header />
+          </AppBar>
+          <Container maxWidth="lg" sx={{ paddingTop: 5, minHeight: '100vh' }}>
+            <CssBaseline />
+            <Component {...pageProps} />
+          </Container>
+          <Footer />
+        </ThemeProvider>
       </SessionProvider>
     </ApolloProvider>
   );

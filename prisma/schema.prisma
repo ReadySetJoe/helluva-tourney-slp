@@ -59,38 +59,30 @@ model Tournament {
   name   String
   user   User    @relation(fields: [userId], references: [id])
   userId String
-  Event  Event[]
+  events Event[]
 }
 
 model Event {
-  id           Int         @id @default(autoincrement())
+  id           Int        @id @default(autoincrement())
   ggId         Int
-  tournament   Tournament? @relation(fields: [tournamentId], references: [id])
-  tournamentId Int?
+  tournament   Tournament @relation(fields: [tournamentId], references: [id], onDelete: Cascade)
+  tournamentId Int
   sets         Set[]
 }
 
 model Set {
-  id      Int    @id @default(autoincrement())
-  ggId    Int
-  event   Event? @relation(fields: [eventId], references: [id])
-  eventId Int?
-  round   String
-  games   Game[]
-}
-
-model Game {
   id       Int       @id @default(autoincrement())
   ggId     Int
-  Set      Set?      @relation(fields: [setId], references: [id])
-  setId    Int?
+  event    Event     @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  eventId  Int
+  round    String
   entrants Entrant[]
 }
 
 model Entrant {
-  id     Int    @id @default(autoincrement())
-  name   String
-  ggId   Int
-  game   Game?  @relation(fields: [gameId], references: [id])
-  gameId Int?
+  id    Int    @id @default(autoincrement())
+  name  String
+  ggId  Int
+  setId Int
+  set   Set    @relation(fields: [setId], references: [id], onDelete: Cascade)
 }

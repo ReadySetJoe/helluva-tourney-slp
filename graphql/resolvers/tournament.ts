@@ -2,6 +2,48 @@ import { PrismaClient, User } from '@prisma/client';
 
 import { fetchGgTournament } from './start-gg';
 
+export const tournament = async (
+  _parent,
+  { id }: { id: number },
+  { models }: { models: PrismaClient }
+) => {
+  return models.tournament.findUnique({
+    where: { id },
+    include: {
+      events: {
+        include: {
+          sets: {
+            include: {
+              entrants: true,
+            },
+          },
+        },
+      },
+    },
+  });
+};
+
+export const myTournaments = async (_parent, _args, { models, user }) => {
+  return models.tournament.findMany({
+    where: { userId: user.id },
+    include: {
+      events: {
+        include: {
+          sets: {
+            include: {
+              entrants: true,
+            },
+          },
+        },
+      },
+    },
+  });
+};
+
+export const tournaments = async (_parent, _args, { models }) => {
+  return models.tournament.findAll({});
+};
+
 export const createTournament = async (
   parent: any,
   { slug }: { slug: string },
@@ -33,53 +75,47 @@ export const createTournament = async (
     },
   });
 
-  const sets = await Promise.all(
-    eventData.sets.nodes.map(set => {
-      return models.set.create({
+  await Promise.all(
+    eventData.sets.nodes.map(async ggSet => {
+      const set = await models.set.create({
         data: {
-          ggId: set.id,
-          round: set.fullRoundText,
+          ggId: ggSet.id,
+          round: ggSet.fullRoundText,
           eventId: event.id,
+          entrants: {
+            create: ggSet.slots.map(slot => ({
+              ggId: slot.entrant.id,
+              name: slot.entrant.name,
+            })),
+          },
         },
       });
-    })
-  );
 
-  await Promise.all(
-    eventData.sets.nodes.map(set => {
-      return Promise.all(
-        set.slots.map(slot => {
-          return models.entrant.create({
-            data: {
-              name: slot.entrant.name,
-              ggId: slot.entrant.id,
-            },
-          });
-        })
-      );
+      // await Promise.all(
+      //   ggSet.slots.map(slot => {
+      //     return models.entrant.create({
+      //       data: {
+      //         setId: set.id,
+      //         name: slot.entrant.name,
+      //         ggId: slot.entrant.id,
+      //       },
+      //     });
+      //   })
+      // );
     })
   );
 
   return {
     id: tournament.id,
-    name: tournamentData.name,
-    event: {
-      id: eventData.id,
-      sets: eventData.sets.nodes.map(set => ({
-        id: set.id,
-        round: set.fullRoundText,
-        entrants: set.slots.map(slot => slot.entrant),
-      })),
-    },
+    name: tournament.name,
   };
 };
 
-export const myTournaments = async (_parent, _args, { models, user }) => {
-  return models.tournament.findMany({
-    where: { userId: user.id },
-  });
-};
-
-export const tournaments = async (_parent, _args, { models }) => {
-  return models.tournament.findAll({});
+export const deleteTournament = async (
+  _parent,
+  { id }: { id: number },
+  { models }: { models: PrismaClient }
+) => {
+  await models.tournament.delete({ where: { id } });
+  return true;
 };
