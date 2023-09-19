@@ -4,7 +4,7 @@ import { Box, Card, Grid, Typography } from '@mui/material';
 import {
   getCharacterColorName,
   getCharacterName,
-} from '../../helpers/character';
+} from '../../helpers/characterUtils';
 import { getUniqueEntrants } from '../../helpers/utils';
 
 const myTournamentsQuery = gql`

@@ -1,3 +1,5 @@
+import { formatISO } from 'date-fns';
+
 import { PrismaClient, User } from '@prisma/client';
 
 import { fetchGgTournament } from './start-gg';
@@ -74,6 +76,7 @@ export const createTournament = async (
                 ggId: ggSet.id,
                 round: ggSet.round,
                 roundText: ggSet.fullRoundText,
+                completedAt: formatISO(ggSet.completedAt * 1000),
                 winnerGgId: ggSet.winnerId,
                 entrants: {
                   create: ggSet.slots.map(slot => ({

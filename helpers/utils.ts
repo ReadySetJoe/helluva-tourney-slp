@@ -80,6 +80,15 @@ export const sortByRound = (sets: any) => {
   return newSets;
 };
 
+export const sortByTime = (sets: any, order: string) => {
+  return [...sets].sort((a: any, b: any) => {
+    if (order === 'asc') {
+      return a.completedAt > b.completedAt ? 1 : -1;
+    }
+    return a.completedAt < b.completedAt ? 1 : -1;
+  });
+};
+
 export const filterByEntrant = (sets: any, entrant: string) => {
   return sets.filter(set => {
     return set.entrants.find(e => e.name === entrant);

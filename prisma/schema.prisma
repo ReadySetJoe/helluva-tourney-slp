@@ -42,7 +42,8 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
-  Tournament    Tournament[]
+  tournaments   Tournament[]
+  slpGames      SlpGame[]
 }
 
 model VerificationToken {
@@ -54,12 +55,13 @@ model VerificationToken {
 }
 
 model Tournament {
-  id     Int     @id @default(autoincrement())
-  slug   String
-  name   String
-  user   User    @relation(fields: [userId], references: [id])
-  userId String
-  events Event[]
+  id      Int       @id @default(autoincrement())
+  slug    String
+  name    String
+  user    User      @relation(fields: [userId], references: [id])
+  userId  String
+  events  Event[]
+  slpGame SlpGame[]
 }
 
 model Event {
@@ -71,14 +73,16 @@ model Event {
 }
 
 model Set {
-  id         Int       @id @default(autoincrement())
-  ggId       Int
-  event      Event     @relation(fields: [eventId], references: [id], onDelete: Cascade)
-  eventId    Int
-  round      Int
-  roundText  String
-  entrants   Entrant[]
-  winnerGgId Int
+  id          Int       @id @default(autoincrement())
+  ggId        Int
+  winnerGgId  Int
+  completedAt DateTime?
+  event       Event     @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  eventId     Int
+  round       Int
+  roundText   String
+  entrants    Entrant[]
+  slpGames    SlpGame[]
 }
 
 model Entrant {
@@ -87,4 +91,28 @@ model Entrant {
   ggId  Int
   setId Int
   set   Set    @relation(fields: [setId], references: [id], onDelete: Cascade)
+}
+
+model SlpGame {
+  id           Int         @id @default(autoincrement())
+  fileName     String
+  url          String
+  tournament   Tournament  @relation(fields: [tournamentId], references: [id], onDelete: Cascade)
+  tournamentId Int
+  set          Set?        @relation(fields: [setId], references: [id], onDelete: Cascade)
+  setId        Int?
+  user         User        @relation(fields: [userId], references: [id])
+  userId       String
+  stage        String?
+  startAt      DateTime?
+  slpPlayers   SlpPlayer[]
+}
+
+model SlpPlayer {
+  id                 Int     @id @default(autoincrement())
+  name               String
+  characterName      String
+  characterColorName String
+  slpGameId          Int
+  slpGame            SlpGame @relation(fields: [slpGameId], references: [id], onDelete: Cascade)
 }

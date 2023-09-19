@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "SlpGame" ALTER COLUMN "stage" DROP NOT NULL,
+ALTER COLUMN "startAt" DROP NOT NULL;

@@ -2,13 +2,15 @@ import { gql } from 'graphql-tag';
 
 const typeDefs = gql`
   type Query {
+    fetchGgTournament(slug: String!): GgTournamentQueryResponse
+    myTournaments: [Tournament]
     tournament(id: Int!): Tournament
     tournaments: [Tournament]
-    myTournaments: [Tournament]
-    fetchGgTournament(slug: String!): GgTournamentQueryResponse
+    slpGames(tournamentId: Int!): [SlpGame]
   }
 
   type Mutation {
+    createSlpGame(input: SlpGameInput!): SlpGame
     createTournament(slug: String!): Tournament
     deleteTournament(id: Int!): Boolean
   }
@@ -36,6 +38,7 @@ const typeDefs = gql`
   type GgSet {
     id: Int!
     fullRoundText: String!
+    completedAt: String!
     slots: [GgSlot]
   }
 
@@ -67,6 +70,7 @@ const typeDefs = gql`
     round: Int
     roundText: String
     entrants: [Entrant]
+    completedAt: String
     winnerGgId: Int
   }
 
@@ -74,6 +78,39 @@ const typeDefs = gql`
     id: Int!
     ggId: Int!
     name: String!
+  }
+
+  type SlpGame {
+    id: Int!
+    fileName: String!
+    url: String!
+    stage: String!
+    startAt: String!
+    tournament: Tournament
+    set: Set
+    slpPlayers: [SlpPlayer]
+  }
+
+  type SlpPlayer {
+    id: Int!
+    name: String!
+    characterName: String!
+    characterColorName: String!
+  }
+
+  input SlpGameInput {
+    fileName: String!
+    url: String!
+    tournamentId: Int!
+    stage: String!
+    startAt: String!
+    slpPlayers: [SlpPlayerInput!]!
+  }
+
+  input SlpPlayerInput {
+    name: String!
+    characterName: String!
+    characterColorName: String!
   }
 `;
 

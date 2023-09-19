@@ -1,3 +1,4 @@
+import { createSlpGame, slpGames } from './slp-game';
 import { fetchGgTournament } from './start-gg';
 import {
   createTournament,
@@ -11,11 +12,13 @@ const resolvers = {
   Query: {
     fetchGgTournament,
     myTournaments,
+    slpGames,
     tournaments,
     tournament,
   },
   Mutation: {
     createTournament,
+    createSlpGame,
     deleteTournament,
   },
 };

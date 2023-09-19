@@ -24,15 +24,7 @@ export default async function handler(
       ContentType: fileType,
       Expires: 5 * 60,
     });
+
     res.status(200).json({ preSignedUrl });
-  } else if (req.method === 'GET') {
   }
 }
-
-export const config = {
-  api: {
-    bodyParser: {
-      sizeLimit: '4mb',
-    },
-  },
-};
