@@ -94,3 +94,12 @@ export const filterByEntrant = (sets: any, entrant: string) => {
     return set.entrants.find(e => e.name === entrant);
   });
 };
+
+export const sortSlpGamesByTime = (games: any, order: string) => {
+  return [...games].sort((a: any, b: any) => {
+    if (order === 'asc') {
+      return a.startAt > b.startAt ? 1 : -1;
+    }
+    return a.startAt < b.startAt ? 1 : -1;
+  });
+};

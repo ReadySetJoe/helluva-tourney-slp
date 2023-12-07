@@ -59,6 +59,7 @@ export const fetchGgTournament = async (
                 round
                 fullRoundText
                 winnerId
+                displayScore
                 completedAt
                 slots {
                   id

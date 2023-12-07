@@ -76,6 +76,7 @@ export const createTournament = async (
                 ggId: ggSet.id,
                 round: ggSet.round,
                 roundText: ggSet.fullRoundText,
+                displayScore: ggSet.displayScore,
                 completedAt: formatISO(ggSet.completedAt * 1000),
                 winnerGgId: ggSet.winnerId,
                 entrants: {

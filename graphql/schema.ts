@@ -6,6 +6,7 @@ const typeDefs = gql`
     myTournaments: [Tournament]
     tournament(id: Int!): Tournament
     tournaments: [Tournament]
+    slpGame(tournamentId: Int!, fileName: String!): SlpGame
     slpGames(tournamentId: Int!): [SlpGame]
   }
 
@@ -72,6 +73,7 @@ const typeDefs = gql`
     entrants: [Entrant]
     completedAt: String
     winnerGgId: Int
+    displayScore: String
   }
 
   type Entrant {
@@ -93,9 +95,11 @@ const typeDefs = gql`
 
   type SlpPlayer {
     id: Int!
+    playerIndex: Int!
     name: String!
     characterName: String!
     characterColorName: String!
+    isWinner: Boolean!
   }
 
   input SlpGameInput {
@@ -108,9 +112,11 @@ const typeDefs = gql`
   }
 
   input SlpPlayerInput {
+    playerIndex: Int!
     name: String!
     characterName: String!
     characterColorName: String!
+    isWinner: Boolean!
   }
 `;
 

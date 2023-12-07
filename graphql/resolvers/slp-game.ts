@@ -1,11 +1,23 @@
 import { PrismaClient } from '@prisma/client';
-import { SlippiGame } from '@slippi/slippi-js';
+import { GameStartType, MetadataType } from '@slippi/slippi-js';
 
 import {
   getCharacterColorName,
   getCharacterName,
 } from '../../helpers/characterUtils';
-import { getStageName } from '../../helpers/stageUtils';
+
+export const slpGame = async (
+  _parent: any,
+  { tournamentId, fileName }: { tournamentId: number; fileName: string },
+  { models }: { models: PrismaClient }
+) => {
+  return models.slpGame.findFirst({
+    where: { tournamentId, fileName },
+    include: {
+      slpPlayers: true,
+    },
+  });
+};
 
 export const slpGames = async (
   _parent: any,
@@ -21,20 +33,25 @@ export const slpGames = async (
 };
 
 export const getSlpPlayer = (
-  player: any,
-  metadata: any,
+  player: GameStartType['players'][0],
+  metadata: MetadataType,
   defaultName: string
 ) => {
-  const netplayName = metadata.names?.netplay;
-  const netplayCode = metadata.names?.code;
+  const name =
+    player.nametag ??
+    metadata.players[player.playerIndex].names.netplay ??
+    metadata.players[player.playerIndex].names.code ??
+    defaultName;
 
   return {
-    name: player.nametag || netplayName || netplayCode || defaultName,
+    playerIndex: player.playerIndex,
+    name,
     characterName: getCharacterName(player.characterId),
     characterColorName: getCharacterColorName(
       player.characterId,
       player.characterColor
     ),
+    isWinner: null,
   };
 };
 
@@ -53,26 +70,7 @@ export const createSlpGame = async (
     return existingGame;
   }
 
-  // console.log('made it here 1');
-  // const gameData = await fetch(url as string);
-  // console.log('made it here 2');
-  // const game = new SlippiGame(await gameData.arrayBuffer());
-  // console.log('made it here 3');
-  // const settings = game.getSettings();
-  // const metadata = game.getMetadata();
-
-  // console.log('settings', settings.enabledItems);
-
-  // const p1 = settings.players[0];
-  // const p2 = settings.players[1];
-
-  // const slpPlayer1 = getSlpPlayer(p1, metadata.players[p1.playerIndex]);
-  // const slpPlayer2 = getSlpPlayer(p2, metadata.players[p2.playerIndex]);
-
-  // const stage = getStageName(settings.stageId);
-
-  // console.log('made it here 3.5');
-  const slpGame = await models.slpGame.create({
+  return models.slpGame.create({
     data: {
       fileName,
       url,
@@ -93,8 +91,4 @@ export const createSlpGame = async (
       },
     },
   });
-
-  console.log('made it here 4', slpGame);
-
-  return slpGame;
 };

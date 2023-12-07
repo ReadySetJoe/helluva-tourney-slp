@@ -33,6 +33,7 @@ export type EventSetsQueryResponse = {
       fullRoundText: string;
       winnerId: number;
       completedAt: number;
+      displayScore: string;
       slots: {
         id: string;
         entrant: {

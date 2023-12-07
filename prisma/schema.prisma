@@ -73,16 +73,17 @@ model Event {
 }
 
 model Set {
-  id          Int       @id @default(autoincrement())
-  ggId        Int
-  winnerGgId  Int
-  completedAt DateTime?
-  event       Event     @relation(fields: [eventId], references: [id], onDelete: Cascade)
-  eventId     Int
-  round       Int
-  roundText   String
-  entrants    Entrant[]
-  slpGames    SlpGame[]
+  id           Int       @id @default(autoincrement())
+  ggId         Int
+  winnerGgId   Int
+  completedAt  DateTime?
+  event        Event     @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  eventId      Int
+  round        Int
+  roundText    String
+  displayScore String
+  entrants     Entrant[]
+  slpGames     SlpGame[]
 }
 
 model Entrant {
@@ -113,6 +114,8 @@ model SlpPlayer {
   name               String
   characterName      String
   characterColorName String
+  playerIndex        Int
+  isWinner           Boolean
   slpGameId          Int
   slpGame            SlpGame @relation(fields: [slpGameId], references: [id], onDelete: Cascade)
 }
